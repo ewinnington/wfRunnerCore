@@ -21,7 +21,7 @@ namespace wfRunnerCore
                 {
                     if (args[0].Equals("-h"))
                     {
-                        string message = "Usage: -r WorkflowFileName.Ext \n       -r \"Path\\WorkflowFileName.Ext\"";
+                        string message = "Usage: -r WorkflowFileName.Ext -a ArgumentFile.json \n       -r \"Path\\WorkflowFileName.Ext\"  -a \"Path\\ArgumentFile.json\" ";
                         Console.WriteLine(message); Console.ReadKey();
                         return;
                     }
