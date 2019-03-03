@@ -2,7 +2,7 @@
   "profiles": {
     "wfRunnerCore": {
       "commandName": "Project",
-      "commandLineArgs": "-r RunMe.xaml",
+      "commandLineArgs": "-r \"Workflows\\RunMe.xaml\"",
       "environmentVariables": {
         "Mail_ServerEmailPassword": "\"\"",
         "Mail_ServerEmailAccount": "\"\"",

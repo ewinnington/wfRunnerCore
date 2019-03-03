@@ -19,8 +19,8 @@ namespace wfRunnerCore
                 {
                     if (args[0].Equals("-h"))
                     {
-                        string message = "WorkflowDesigner.exe [-r] [Filename]\n\nFilename\tStart WorkflowDesigner and open Workflow in Filename\n\n-r\tRun Workflow in Filename without opening the\n\tWorkflowDesigner.\nThe output can be redirected to a file using '> OutFile'";
-                        Console.WriteLine(message);
+                        string message = "Usage: -r WorkflowFileName.Ext \n       -r \"Path\\WorkflowFileName.Ext\"";
+                        Console.WriteLine(message); Console.ReadKey();
                         return;
                     }
 
@@ -90,7 +90,14 @@ namespace wfRunnerCore
             if (File.Exists(ExpectedDllPath))
             {
                 var path = ExpectedDllPath;
+                //Normal assembly load from file path
                 return Assembly.LoadFrom(path);
+            }
+
+            if (false) { 
+                //simulate loading a binary from elsewhere (ie. DB storage)
+                byte[] BinAssembly = File.ReadAllBytes(ExpectedDllPath);
+                return Assembly.Load(BinAssembly);
             }
 
             return null;
