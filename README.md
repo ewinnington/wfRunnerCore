@@ -8,5 +8,11 @@ Please ensure that the "ActivityLibraryCore.dll" is located in the WFLibs direct
 Usage on the command line: 
 
 dotnet wfRunnerCore.dll -r "Workflows\RunMe.xaml"
+
 dotnet wfRunnerCore.dll -r "Workflows\EchoWorkflowArgument.xaml" -a "Workflows\EchoWorkflowArgument.json"
+
 dotnet wfRunnerCore.dll -r "Workflows\IncrementInputToOutput.xaml" -a "Workflows\IncrementInputToOutput.json"
+
+Please note that the Arguments are parsed from a json file by Newtonsoft Json.net. Therefore, the InArguments should be adapted to the default data type. For example, an integer is parsed as a long (Int64) as an argument. 
+
+License: MIT
