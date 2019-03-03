@@ -5,4 +5,21 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="corewf\**" />
+    <EmbeddedResource Remove="corewf\**" />
+    <None Remove="corewf\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WorkflowExtensionInterfaces\WorkflowExtensionInterfaces.csproj" />
+    <ProjectReference Include="corewf\src\CoreWf\CoreWf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="RunMe.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

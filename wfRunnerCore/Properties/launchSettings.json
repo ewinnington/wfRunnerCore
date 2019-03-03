@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "wfRunnerCore": {
+      "commandName": "Project",
+      "commandLineArgs": "-r RunMe.xaml",
+      "environmentVariables": {
+        "Mail_ServerEmailPassword": "\"\"",
+        "Mail_ServerEmailAccount": "\"\"",
+        "Mail_ServerEmailAddress": "\"\"",
+        "Mail_MailServerAddress": "\"\""
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+<Activity x:Class="WFTemplate"
+                              xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+                              xmlns:s="clr-namespace:System;assembly=mscorlib"
+                              xmlns:s1="clr-namespace:System;assembly=System"
+                              xmlns:sa="clr-namespace:CoreWf;assembly=CoreWf"
+                              xmlns:al="clr-namespace:ActivityLibraryCore.Scripting;assembly=ActivityLibraryCore"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<al:RunCommand Arguments="/c dir /b" Command="cmd.exe" />
+</Activity>

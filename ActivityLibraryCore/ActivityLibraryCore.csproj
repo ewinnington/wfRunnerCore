@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\wfRunnerCore\corewf\src\CoreWf\CoreWf.csproj" />
+    <ProjectReference Include="..\WorkflowExtensionInterfaces\WorkflowExtensionInterfaces.csproj" />
+  </ItemGroup>
+
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\wfRunnerCore\bin\Debug\netcoreapp2.1\WFLibs\&quot;" />
+  </Target>
+
+</Project>
