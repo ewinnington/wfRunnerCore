@@ -1,6 +1,8 @@
 ﻿using CoreWf;
 using CoreWf.Tracking;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using wfRunnerCore.Extensions;
@@ -34,7 +36,16 @@ namespace wfRunnerCore
                         System.IO.StringReader stringReader = new System.IO.StringReader(wfText);
                         Activity root = CoreWf.XamlIntegration.ActivityXamlServices.Load(stringReader) as Activity;
 
-                        WorkflowApplication wfApp = new WorkflowApplication(root);
+                        Dictionary<string, object> WorkflowArguments = new Dictionary<string, object>();
+
+                        idx = Array.IndexOf(args, "-a");
+                        if (idx != -1)
+                        {
+                            string ArgumentFile = args[idx + 1];
+                            WorkflowArguments = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ArgumentFile));
+                        }
+
+                        WorkflowApplication wfApp = new WorkflowApplication(root, WorkflowArguments);
 
                         WFTracking track = new WFTracking(new ConsoleLogger());
                         //Tracking Profile
@@ -54,7 +65,12 @@ namespace wfRunnerCore
 
                         wfApp.Extensions.Add(new ConsoleLogger());
 
-                        wfApp.Completed = (WorkflowApplicationCompletedEventArgs e) => { Console.WriteLine("Finished - Shutdown {0} \nPress any key to continue", e.CompletionState); };
+                        wfApp.Completed = (WorkflowApplicationCompletedEventArgs e) => {
+                            if (e.Outputs != null && e.Outputs.Count > 0) {
+                                foreach (var kvp in e.Outputs)
+                                    Console.WriteLine("Output --> {0} : {1}", kvp.Key, kvp.Value.ToString());
+                            }
+                            Console.WriteLine("Finished - Workflow Completion State {0} \nPress any key to continue", e.CompletionState); };
                         wfApp.Run();
                     }
                    
