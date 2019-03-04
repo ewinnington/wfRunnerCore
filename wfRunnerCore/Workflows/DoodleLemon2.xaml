@@ -1,0 +1,119 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WFTemplate"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <x:Members>
+        <x:Property Name="MyNumber" Type="InArgument(x:Double)" />
+        <x:Property Name="MyString" Type="InArgument(x:String)" />
+        <x:Property Name="MyArrayInt" Type="InArgument(s:Int32[])" />
+        <x:Property Name="MyListString" Type="InArgument(scg:List(x:String))" />
+        <x:Property Name="FinalOutput" Type="OutArgument(x:String)" />
+    </x:Members>
+    <Sequence>
+        <Sequence.Variables>
+            <Variable x:TypeArguments="x:String" Name="CombinedArguments" />
+            <Variable x:TypeArguments="x:String" Name="StringInt" />
+            <Variable x:TypeArguments="x:String" Name="IntString" />
+            <Variable x:TypeArguments="x:Boolean" Name="LimeFound" />
+        </Sequence.Variables>
+        <Parallel>
+            <Assign>
+                <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[IntString]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[MyNumber.ToString() + MyString]</InArgument>
+                </Assign.Value>
+            </Assign>
+            <Assign>
+                <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[StringInt]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[MyString + (MyNumber*4).ToString()]</InArgument>
+                </Assign.Value>
+            </Assign>
+        </Parallel>
+        <Assign>
+            <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[CombinedArguments]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[IntString + StringInt]</InArgument>
+            </Assign.Value>
+        </Assign>
+        <ForEach x:TypeArguments="x:Int32">
+            <ForEach.Values>
+                <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">[MyArrayInt]</InArgument>
+            </ForEach.Values>
+            <ActivityAction x:TypeArguments="x:Int32">
+                <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:Int32" Name="item" />
+                </ActivityAction.Argument>
+                <Assign>
+                    <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[CombinedArguments]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[CombinedArguments + item.ToString() + "_"]</InArgument>
+                    </Assign.Value>
+                </Assign>
+            </ActivityAction>
+        </ForEach>
+        <RemoveFromCollection x:TypeArguments="x:String" DisplayName="RemoveFromCollection&lt;String&gt;" Item="lime">
+            <RemoveFromCollection.Result>
+                <OutArgument x:TypeArguments="x:Boolean">[LimeFound]</OutArgument>
+            </RemoveFromCollection.Result>
+            <InArgument x:TypeArguments="scg:ICollection(x:String)">[MyListString]</InArgument>
+        </RemoveFromCollection>
+        <If>
+            <If.Condition>
+                <InArgument x:TypeArguments="x:Boolean">[LimeFound]</InArgument>
+            </If.Condition>
+            <If.Then>
+                <ForEach x:TypeArguments="x:String" DisplayName="ForEach&lt;String&gt;">
+                    <ForEach.Values>
+                        <InArgument x:TypeArguments="scg:IEnumerable(x:String)">[MyListString]</InArgument>
+                    </ForEach.Values>
+                    <ActivityAction x:TypeArguments="x:String">
+                        <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+                        </ActivityAction.Argument>
+                        <Assign>
+                            <Assign.To>
+                                <OutArgument x:TypeArguments="x:String">[CombinedArguments]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                                <InArgument x:TypeArguments="x:String">[CombinedArguments + item]</InArgument>
+                            </Assign.Value>
+                        </Assign>
+                    </ActivityAction>
+                </ForEach>
+            </If.Then>
+            <If.Else>
+                <TerminateWorkflow>
+                    <TerminateWorkflow.Exception>
+                        <InArgument x:TypeArguments="s:Exception">[new ArgumentException(nameof(MyListString))]</InArgument>
+                    </TerminateWorkflow.Exception>
+                    <TerminateWorkflow.Reason>
+                        <InArgument x:TypeArguments="x:String"></InArgument>
+                    </TerminateWorkflow.Reason>
+                </TerminateWorkflow>
+            </If.Else>
+        </If>
+        <Assign>
+            <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[FinalOutput]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[CombinedArguments]</InArgument>
+            </Assign.Value>
+        </Assign>
+    </Sequence>
+</Activity>
