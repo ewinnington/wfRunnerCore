@@ -7,6 +7,10 @@ using System.IO;
 using System.Reflection;
 using wfRunnerCore.Extensions;
 
+using Portable.Xaml;
+using System.Xml;
+using CoreWf.XamlIntegration;
+
 namespace wfRunnerCore
 {
     class WorkflowRunnerCore
@@ -21,7 +25,9 @@ namespace wfRunnerCore
                 {
                     if (args[0].Equals("-h"))
                     {
-                        string message = "Usage: -r WorkflowFileName.Ext -a ArgumentFile.json \n       -r \"Path\\WorkflowFileName.Ext\"  -a \"Path\\ArgumentFile.json\" ";
+                        string message = "Usage: -r WorkflowFileName.Ext -a ArgumentFile.json \n"+
+                                         "       -r \"Path\\WorkflowFileName.Ext\"  -a \"Path\\ArgumentFile.json\" \n" +
+                                         "       -r \"Path\\WorkflowFileName.Ext\"  -x \"Path\\ArgumentFile.xaml\"";
                         Console.WriteLine(message); Console.ReadKey();
                         return;
                     }
@@ -34,15 +40,23 @@ namespace wfRunnerCore
                         string wfText = File.ReadAllText(FileName);
 
                         System.IO.StringReader stringReader = new System.IO.StringReader(wfText);
-                        Activity root = CoreWf.XamlIntegration.ActivityXamlServices.Load(stringReader) as Activity;
 
+                        var settings = new ActivityXamlServicesSettings { CompileExpressions = true };
+                        Activity root = CoreWf.XamlIntegration.ActivityXamlServices.Load(stringReader, settings );
+                        
                         Dictionary<string, object> WorkflowArguments = new Dictionary<string, object>();
 
-                        idx = Array.IndexOf(args, "-a");
+                        idx = Array.IndexOf(args, "-a"); //json arguments
                         if (idx != -1)
                         {
                             string ArgumentFile = args[idx + 1];
                             WorkflowArguments = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(ArgumentFile));
+                        }
+
+                        idx = Array.IndexOf(args, "-x"); //xaml based argument serialization - allows for complex objects
+                        if(idx != -1)
+                        {
+                           WorkflowArguments = (Dictionary<string, object>)XamlServices.Load(args[idx + 1]);
                         }
 
                         WorkflowApplication wfApp = new WorkflowApplication(root, WorkflowArguments);
