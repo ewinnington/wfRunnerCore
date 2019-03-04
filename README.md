@@ -13,6 +13,8 @@ dotnet wfRunnerCore.dll -r "Workflows\EchoWorkflowArgument.xaml" -a "Workflows\E
 
 dotnet wfRunnerCore.dll -r "Workflows\IncrementInputToOutput.xaml" -a "Workflows\IncrementInputToOutput.json"
 
-Please note that the Arguments are parsed from a json file by Newtonsoft Json.net. Therefore, the InArguments should be adapted to the default data type. For example, an integer is parsed as a long (Int64) as an argument. 
+dotnet wfRunnerCore.dll -r "Workflows\worflowFile.xaml" -x "Workflows\worklowFileArgs.xaml"
+
+Please note that the Arguments are parsed from a json file with by Newtonsoft Json.net with the "-a" command. Therefore, the InArguments should be adapted to the default data type. For example, an integer is parsed as a long (Int64) as an argument. With the "-x" command, the arguments are loaded from a XAML serialization, so you can pass in complex objects, as long as your argument file defines a Dictionary<string,object>, please see [DoodleLemonArgs.xaml](https://github.com/ewinnington/wfRunnerCore/blob/master/wfRunnerCore/Workflows/DoodleLemonArgs.xaml) for an example.
 
 License: MIT
