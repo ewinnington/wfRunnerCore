@@ -2,12 +2,12 @@
   "profiles": {
     "wfRunnerCore": {
       "commandName": "Project",
-      "commandLineArgs": "-r \"Workflows\\IncrementInputToOutput.xaml\" -a \"Workflows\\IncrementInputToOutput.json\"",
+      "commandLineArgs": "-r \"Workflows\\SendEmail.xaml\"",
       "environmentVariables": {
-        "Mail_ServerEmailPassword": "\"\"",
-        "Mail_ServerEmailAccount": "\"\"",
-        "Mail_ServerEmailAddress": "\"\"",
-        "Mail_MailServerAddress": "\"\""
+        "Mail_ServerEmailPassword": "a",
+        "Mail_ServerEmailAccount": "serverAccount",
+        "Mail_ServerEmailAddress": "a@example.com",
+        "Mail_MailServerAddress": "localhost"
       }
     }
   }
