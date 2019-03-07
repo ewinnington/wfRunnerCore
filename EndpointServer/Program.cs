@@ -27,8 +27,8 @@ namespace EndpointServer
             Console.WriteLine("SMTP server open on " + port);
 
 
-            //Thread t = new Thread(FTPServer);
-            //t.Start();
+            Thread t = new Thread(FTPServer);
+            t.Start();
 
             Console.ReadLine();
         }
@@ -61,16 +61,17 @@ namespace EndpointServer
                 // Initialize the FTP server
                 var ftpServerHost = serviceProvider.GetRequiredService<IFtpServerHost>();
 
+                var cts = new CancellationTokenSource();
                 CancellationToken cancellationToken = new CancellationToken();
 
                 // Start the FTP server
-                ftpServerHost.StartAsync(cancellationToken).Wait();
+                ftpServerHost.StartAsync(cts.Token).Wait();
 
                 Console.WriteLine("Press ENTER/RETURN to close the test application.");
                 Console.ReadLine();
 
                 // Stop the FTP server
-                //ftpServerHost.StopAsync(cancellationToken).Wait();
+                ftpServerHost.StopAsync(cts.Token).Wait();
             }
         }
     }
