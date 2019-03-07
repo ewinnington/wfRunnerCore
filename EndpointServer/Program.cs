@@ -62,7 +62,6 @@ namespace EndpointServer
                 var ftpServerHost = serviceProvider.GetRequiredService<IFtpServerHost>();
 
                 var cts = new CancellationTokenSource();
-                CancellationToken cancellationToken = new CancellationToken();
 
                 // Start the FTP server
                 ftpServerHost.StartAsync(cts.Token).Wait();
