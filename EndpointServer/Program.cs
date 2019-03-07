@@ -42,7 +42,7 @@ namespace EndpointServer
             string CurrentPath = AppContext.BaseDirectory;
             // use %TEMP%/TestFtpServer as root folder
             services.Configure<DotNetFileSystemOptions>(opt => opt
-                .RootPath = "Z:\\Data");  //Path.Combine(Path.GetTempPath(), "TestFtpServer"));
+                .RootPath = CurrentPath);  //Path.Combine(Path.GetTempPath(), "TestFtpServer"));
 
             // Add FTP server services
             // DotNetFileSystemProvider = Use the .NET file system functionality
