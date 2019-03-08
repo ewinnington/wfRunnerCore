@@ -5,6 +5,9 @@ using netDumbster.smtp;
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+
+using Serilog; 
 
 namespace EndpointServer
 {
@@ -27,17 +30,28 @@ namespace EndpointServer
             Console.WriteLine("SMTP server open on " + port);
 
 
-            Thread t = new Thread(FTPServer);
-            t.Start();
+            var t = Task.Run(() => FTPServer()); 
 
             Console.ReadLine();
         }
 
-        private static void FTPServer(object obj)
+        private static Task FTPServer()
         {
+
+            // Configure Serilog
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateLogger();
+
             // Setup dependency injection
             var services = new ServiceCollection();
 
+            // Add Serilog as logger provider
+            services.AddLogging(lb => lb.AddSerilog());
+
+          
 
             string CurrentPath = AppContext.BaseDirectory;
             // use %TEMP%/TestFtpServer as root folder
@@ -52,7 +66,7 @@ namespace EndpointServer
                 .EnableAnonymousAuthentication()); // allow anonymous logins
 
             // Configure the FTP server
-            services.Configure<FtpServerOptions>(opt => opt.ServerAddress = "127.0.0.1");
+            services.Configure<FtpServerOptions>(opt => { opt.ServerAddress = "127.0.0.1"; opt.Port = 21; opt.PasvAddress = "127.0.0.1"; opt.PasvMinPort = 1100; opt.PasvMaxPort = 1200; } );
 
             // Build the service provider
             using (var serviceProvider = services.BuildServiceProvider())
@@ -64,7 +78,7 @@ namespace EndpointServer
                 var cts = new CancellationTokenSource();
 
                 // Start the FTP server
-                ftpServerHost.StartAsync(cts.Token).Wait();
+                ftpServerHost.StartAsync(cts.Token);
 
                 Console.WriteLine("Press ENTER/RETURN to close the test application.");
                 Console.ReadLine();
@@ -72,6 +86,8 @@ namespace EndpointServer
                 // Stop the FTP server
                 ftpServerHost.StopAsync(cts.Token).Wait();
             }
+
+            return Task.CompletedTask; 
         }
     }
 }

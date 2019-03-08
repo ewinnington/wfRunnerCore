@@ -10,6 +10,8 @@
     <PackageReference Include="FubarDev.FtpServer.FileSystem.DotNet" Version="3.0.0-beta.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview3.19153.1" />
     <PackageReference Include="netDumbster" Version="2.0.0.4" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.2-dev-00788" />
   </ItemGroup>
 
 </Project>
