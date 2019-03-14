@@ -29,6 +29,9 @@
       <Generator></Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Workflows\DownloadFromFTP.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Workflows\IncrementInputToOutput.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

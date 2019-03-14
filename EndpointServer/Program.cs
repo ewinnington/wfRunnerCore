@@ -13,26 +13,34 @@ namespace EndpointServer
 {
     class Program
     {
+        static SimpleSmtpServer mail_server; 
+
         static void Main(string[] args)
+        {
+
+
+            var mail = Task.Run(() => MailServer()); 
+            var ftp = Task.Run(() => FTPServer()); 
+
+            Console.ReadLine();
+        }
+
+        private static Task MailServer()
         {
             int port = 25;
 
             //SMTP endpoint
-            var mail_server = SimpleSmtpServer.Start(port);
+            mail_server = SimpleSmtpServer.Start(port);
             mail_server.MessageReceived += (sender, mail) =>
             {
                 // Get message body.
-                var head = mail.Message.MessageParts[0].HeaderData;
+                var head = mail.Message.FromAddress;
                 var body = mail.Message.MessageParts[0].BodyData;
 
                 Console.WriteLine("Got Mail: " + head + "\n" + body);
             };
             Console.WriteLine("SMTP server open on " + port);
-
-
-            var t = Task.Run(() => FTPServer()); 
-
-            Console.ReadLine();
+            return Task.CompletedTask; 
         }
 
         private static Task FTPServer()
@@ -50,8 +58,6 @@ namespace EndpointServer
 
             // Add Serilog as logger provider
             services.AddLogging(lb => lb.AddSerilog());
-
-          
 
             string CurrentPath = AppContext.BaseDirectory;
             // use %TEMP%/TestFtpServer as root folder
