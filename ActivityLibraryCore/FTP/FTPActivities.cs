@@ -19,24 +19,20 @@ namespace ActivityLibraryCore.FTP
     {
         protected override void Execute(CodeActivityContext context)
         {
-            var request = FtpWebRequest.CreateDefault(new Uri(@"ftp://localhost/EndpointServer.runtimeconfig.json"));
+            var request = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost/EndpointServer.runtimeconfig.json");
+            request.Method = WebRequestMethods.Ftp.DownloadFile;
+            request.Credentials = new NetworkCredential("anonymous", "abc@example.com");
+            request.KeepAlive = false;
+
             var response = request.GetResponse();
             var stream = response.GetResponseStream();
             MemoryStream targetStream;
             using (targetStream = new MemoryStream())
             {
-                //read from the input stream in 32K chunks
-                //and save to output stream
-                const int bufferLen = 32768;
-                byte[] buffer = new byte[bufferLen];
-                int count = 0;
-                while ((count = stream.Read(buffer, 0, bufferLen)) > 0)
-                {
-                    targetStream.Write(buffer, 0, count);
-                }
+                stream.CopyTo(targetStream);
 
                 targetStream.Position = 0;
-                Console.WriteLine(targetStream.GetBuffer());
+                Console.WriteLine(Encoding.UTF8.GetString(targetStream.GetBuffer()));
             }
         }
     }
