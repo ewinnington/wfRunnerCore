@@ -4,22 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.IO;
+using System.ComponentModel;
 
 namespace ActivityLibraryCore.FTP
 {
-    public sealed class UploadFile : CodeActivity
-    {
-        protected override void Execute(CodeActivityContext context)
-        {
-
-        }
-    }
-
     public sealed class DownloadFile : CodeActivity
     {
+        [RequiredArgument]
+        [Description("Full path with server name: 'ftp://localhost/EndpointServer.runtimeconfig.json'")]
+        public InArgument<string> RemoteFilePath {get; set;}
+
+        [RequiredArgument]
+        [Description("Content as string of downloaded files - assumes UTF-8 encoded")]
+        public OutArgument<string> FileContents { get; set; }
+
         protected override void Execute(CodeActivityContext context)
         {
-            var request = (FtpWebRequest)FtpWebRequest.Create(@"ftp://localhost/EndpointServer.runtimeconfig.json");
+            var request = (FtpWebRequest)FtpWebRequest.Create(RemoteFilePath.Get(context));
             request.Method = WebRequestMethods.Ftp.DownloadFile;
             request.Credentials = new NetworkCredential("anonymous", "abc@example.com");
             request.KeepAlive = false;
@@ -32,7 +33,7 @@ namespace ActivityLibraryCore.FTP
                 stream.CopyTo(targetStream);
 
                 targetStream.Position = 0;
-                Console.WriteLine(Encoding.UTF8.GetString(targetStream.GetBuffer()));
+                FileContents.Set(context, Encoding.UTF8.GetString(targetStream.GetBuffer()));
             }
         }
     }

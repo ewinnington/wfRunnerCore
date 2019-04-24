@@ -2,7 +2,7 @@
   "profiles": {
     "wfRunnerCore": {
       "commandName": "Project",
-      "commandLineArgs": "-r \"Workflows\\DownloadFromFTP.xaml\"",
+      "commandLineArgs": "-r \"Workflows\\DownloadFromFTP.xaml\" -x \"Workflows\\DownloadFromFTPArgs.xaml\"",
       "environmentVariables": {
         "Mail_ServerEmailPassword": "a",
         "Mail_ServerEmailAccount": "serverAccount",
