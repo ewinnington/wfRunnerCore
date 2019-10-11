@@ -1,3 +1,6 @@
 [submodule "wfRunnerCore/corewf"]
 	path = wfRunnerCore/corewf
 	url = https://github.com/dmetzgar/corewf.git
+[submodule "corewf"]
+	path = corewf
+	url = https://github.com/UiPath/corewf

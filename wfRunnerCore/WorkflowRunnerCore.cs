@@ -1,15 +1,13 @@
-﻿using CoreWf;
-using CoreWf.Tracking;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using wfRunnerCore.Extensions;
-
-using Portable.Xaml;
-using System.Xml;
-using CoreWf.XamlIntegration;
+using System.Activities;
+using System.Activities.XamlIntegration;
+using System.Activities.Tracking;
+using System.Xaml;
 
 namespace wfRunnerCore
 {
@@ -42,7 +40,7 @@ namespace wfRunnerCore
                         System.IO.StringReader stringReader = new System.IO.StringReader(wfText);
 
                         var settings = new ActivityXamlServicesSettings { CompileExpressions = true };
-                        Activity root = CoreWf.XamlIntegration.ActivityXamlServices.Load(stringReader, settings );
+                        Activity root = System.Activities.XamlIntegration.ActivityXamlServices.Load(stringReader, settings );
                         
                         Dictionary<string, object> WorkflowArguments = new Dictionary<string, object>();
 

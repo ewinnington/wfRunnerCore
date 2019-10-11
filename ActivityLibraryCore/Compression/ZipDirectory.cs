@@ -1,9 +1,8 @@
-﻿using CoreWf;
-using CoreWf.Tracking;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO.Compression;
-using System.Text;
+using System.Activities;
+using System.Activities.Tracking;
 
 namespace ActivityLibraryCore.Compression
 {
