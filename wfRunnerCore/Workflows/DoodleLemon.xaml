@@ -1,7 +1,7 @@
 ﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="WFTemplate"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
- xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=CoreWf"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
  xmlns:s="clr-namespace:System;assembly=mscorlib"
  xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
@@ -12,7 +12,7 @@
     <x:Members>
         <x:Property Name="MyNumber" Type="InArgument(x:Double)" />
         <x:Property Name="MyString" Type="InArgument(x:String)" />
-        <x:Property Name="MyArrayInt" Type="InArgument(s:Int32[])" />
+        <!--<x:Property Name="MyArrayInt" Type="InArgument(s:Int32[])" />-->
         <x:Property Name="MyListString" Type="InArgument(scg:List(x:String))" />
         <x:Property Name="FinalOutput" Type="OutArgument(x:String)" />
     </x:Members>
@@ -61,7 +61,7 @@
                 </InArgument>
             </Assign.Value>
         </Assign>
-        <ForEach x:TypeArguments="x:Int32">
+        <!--<ForEach x:TypeArguments="x:Int32">
             <ForEach.Values>
                 <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">
                     <mca:CSharpValue x:TypeArguments="scg:IEnumerable(x:Int32)">MyArrayInt</mca:CSharpValue>
@@ -84,7 +84,7 @@
                     </Assign.Value>
                 </Assign>
             </ActivityAction>
-        </ForEach>
+        </ForEach>-->
         <RemoveFromCollection x:TypeArguments="x:String" DisplayName="RemoveFromCollection&lt;String&gt;" Item="lime">
             <RemoveFromCollection.Result>
                 <OutArgument x:TypeArguments="x:Boolean">

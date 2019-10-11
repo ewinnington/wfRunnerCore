@@ -11,7 +11,7 @@
     <x:Members>
         <x:Property Name="MyNumber" Type="InArgument(x:Double)" />
         <x:Property Name="MyString" Type="InArgument(x:String)" />
-        <x:Property Name="MyArrayInt" Type="InArgument(s:Int32[])" />
+       <!-- <x:Property Name="MyArrayInt" Type="InArgument(s:Int32[])" />-->
         <x:Property Name="MyListString" Type="InArgument(scg:List(x:String))" />
         <x:Property Name="FinalOutput" Type="OutArgument(x:String)" />
     </x:Members>
@@ -48,7 +48,7 @@
                 <InArgument x:TypeArguments="x:String">[IntString + StringInt]</InArgument>
             </Assign.Value>
         </Assign>
-        <ForEach x:TypeArguments="x:Int32">
+        <!--<ForEach x:TypeArguments="x:Int32">
             <ForEach.Values>
                 <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">[MyArrayInt]</InArgument>
             </ForEach.Values>
@@ -65,7 +65,7 @@
                     </Assign.Value>
                 </Assign>
             </ActivityAction>
-        </ForEach>
+        </ForEach>-->
         <RemoveFromCollection x:TypeArguments="x:String" DisplayName="RemoveFromCollection&lt;String&gt;" Item="lime">
             <RemoveFromCollection.Result>
                 <OutArgument x:TypeArguments="x:Boolean">[LimeFound]</OutArgument>
